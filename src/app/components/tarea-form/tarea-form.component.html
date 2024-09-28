@@ -43,65 +43,48 @@
         </div>
 
         <!-- Acordeón dinámico para cada persona -->
-        <div class="accordion" id="accordionPersonas">
-          <div *ngFor="let persona of personas.controls; let i = index" [formGroupName]="i" class="accordion-item">
-            <h2 class="accordion-header" [attr.id]="'heading-' + i">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                [attr.data-bs-target]="'#collapse-' + i" aria-expanded="false"
-                [attr.aria-controls]="'collapse-' + i">
-                Persona {{ i + 1 }}: {{ persona.get('nombre')?.value || 'Nueva Persona' }}
-              </button>
-            </h2>
-            <div [attr.id]="'collapse-' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading-' + i"
-              data-bs-parent="#accordionPersonas">
-              <div class="accordion-body">
+       <!-- Personas asociadas -->
+<div class="accordion" id="accordionPersonas">
+  <div *ngFor="let persona of personas.controls; let i = index" [formGroupName]="i" class="accordion-item">
+    <h2 class="accordion-header" [attr.id]="'heading-' + i">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse-' + i"
+        aria-expanded="false" [attr.aria-controls]="'collapse-' + i">
+        Persona {{ i + 1 }}: {{ persona.get('nombre')?.value || 'Nueva Persona' }}
+      </button>
+    </h2>
+    <div [attr.id]="'collapse-' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading-' + i"
+      data-bs-parent="#accordionPersonas">
+      <div class="accordion-body">
+        <!-- Nombre de la persona -->
+        <div class="mb-3">
+          <label for="nombrePersona" class="form-label">Nombre completo:</label>
+          <input id="nombrePersona" type="text" class="form-control" formControlName="nombre" placeholder="Introduce el nombre completo" />
+        </div>
 
-                <!-- Nombre de la persona -->
-                <div class="mb-3">
-                  <label for="nombrePersona" class="form-label">Nombre completo:</label>
-                  <input id="nombrePersona" type="text" class="form-control" formControlName="nombre" placeholder="Introduce el nombre completo" />
-                  <div *ngIf="persona.get('nombre')?.invalid && persona.get('nombre')?.touched" class="text-danger">
-                    <i class="bi bi-exclamation-circle"></i> El nombre es requerido y debe tener al menos 5 caracteres.
-                  </div>
-                </div>
+        <!-- Edad de la persona -->
+        <div class="mb-3">
+          <label for="edad" class="form-label">Edad:</label>
+          <input id="edad" type="number" class="form-control" formControlName="edad" placeholder="Introduce la edad" />
+        </div>
 
-                <!-- Edad de la persona -->
-                <div class="mb-3">
-                  <label for="edad" class="form-label">Edad:</label>
-                  <input id="edad" type="number" class="form-control" formControlName="edad" placeholder="Introduce la edad" />
-                  <div *ngIf="persona.get('edad')?.invalid && persona.get('edad')?.touched" class="text-danger">
-                    <i class="bi bi-exclamation-circle"></i> La edad debe ser mayor a 18 años.
-                  </div>
-                </div>
-
-                <!-- Habilidades de la persona -->
-                <div formArrayName="habilidades" class="mb-3">
-                  <label class="form-label">Habilidades:</label>
-                  <div *ngFor="let habilidad of getHabilidades(i).controls; let j = index" class="input-group mb-2">
-                    <input type="text" class="form-control w-100" [formControlName]="j" placeholder="Introduce una habilidad" />
-                    <div *ngIf="habilidad.invalid && habilidad.touched" class="text-danger">
-                      <i class="bi bi-exclamation-circle"></i> La habilidad no puede estar vacía.
-                    </div>
-                    <div class="d-flex">
-                      <button type="button" class="btn btn-link" (click)="addHabilidad(i)">
-                        <i class="bi bi-plus-circle"></i> Añadir
-                      </button>
-                      <button type="button" class="btn btn-link text-danger" (click)="removeHabilidad(i, j)">
-                        <i class="bi bi-x-circle"></i> Eliminar
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Botón para eliminar persona -->
-                <button type="button" class="btn btn-link text-danger" (click)="removePersona(i)">
-                  <i class="bi bi-person-x"></i> Eliminar Persona
-                </button>
-
-              </div>
-            </div>
+        <!-- Habilidades de la persona -->
+        <div formArrayName="habilidades" class="mb-3">
+          <label class="form-label">Habilidades:</label>
+          <div *ngFor="let habilidad of getHabilidades(i).controls; let j = index" class="input-group mb-2">
+            <input type="text" class="form-control w-100" [formControlName]="j" placeholder="Introduce una habilidad" />
+            <button type="button" class="btn btn-link" (click)="addHabilidad(i)">
+              <i class="bi bi-plus-circle"></i> Añadir
+            </button>
+            <button type="button" class="btn btn-link text-danger" (click)="removeHabilidad(i, j)">
+              <i class="bi bi-x-circle"></i> Eliminar
+            </button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
 

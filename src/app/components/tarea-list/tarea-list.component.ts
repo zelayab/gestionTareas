@@ -66,6 +66,7 @@ aplicarFiltro(tareas: Tarea[]) {
     setTimeout(() => this.toastVisible = false, 2000);
   }
 
+  // Ocultar el Toast manualmente
   hideToast() {
     this.toastVisible = false;
   }

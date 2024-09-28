@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import * as bootstrap from 'bootstrap';
 import { agregarTarea } from '../../store/actions/tareas.actions';
 
 @Component({
@@ -20,14 +19,6 @@ export class TareaFormComponent {
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       fechaLimite: ['', Validators.required],
       personas: this.fb.array([], this.nombresUnicos)
-    });
-  }
-
-  // Inicializar el colapso de Bootstrap después de cargar la vista
-  ngAfterViewInit() {
-    const accordions = document.querySelectorAll('.accordion-collapse');
-    accordions.forEach(accordion => {
-      new bootstrap.Collapse(accordion); // Inicializar colapso manualmente
     });
   }
 
