@@ -1,0 +1,77 @@
+<div class="container mt-5">
+
+  <div class="m-3">
+    <h5>Filtros:
+      <button class="btn btn-primary m-3" (click)="cambiarFiltro('todas')">
+        <i class="bi bi-list-task"></i> Todas
+      </button>
+      <button class="btn btn-success m-3" (click)="cambiarFiltro('completadas')">
+        <i class="bi bi-check-circle"></i> Completadas
+      </button>
+      <button class="btn btn-danger m-3" (click)="cambiarFiltro('pendientes')">
+        <i class="bi bi-hourglass-split"></i> Pendientes
+      </button>
+    </h5>
+  </div>
+
+  <div *ngIf="tareasFiltradas.length === 0" class="alert alert-warning">
+    <i class="bi bi-exclamation-circle"></i>
+    No hay tareas {{ filtroActual === 'completadas' ? 'completadas' : (filtroActual === 'pendientes' ? 'pendientes' : 'disponibles') }}.
+  </div>
+
+  <div class="row" *ngIf="tareasFiltradas.length > 0">
+    <div *ngFor="let tarea of tareasFiltradas; let i = index" class="col-md-6 col-lg-4 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">
+            <i class="bi" [ngClass]="{'bi-check-circle': tarea.completada, 'bi-circle': !tarea.completada}"></i>
+            {{ tarea.nombre }}
+          </h5>
+          <h6 class="card-subtitle mb-2 text-muted">Fecha límite: {{ tarea.fechaLimite | date }}</h6>
+
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownPersonas{{i}}" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle"></i> Ver personas
+            </button>
+            <ul class="dropdown-menu" [attr.aria-labelledby]="'dropdownPersonas' + i">
+              <li *ngIf="!tarea.personas || tarea.personas.length === 0" class="dropdown-item text-muted">
+                <i class="bi bi-exclamation-circle"></i> No hay personas asociadas
+              </li>
+
+              <li *ngFor="let persona of tarea.personas" class="dropdown-item">
+                <i class="bi bi-person-circle"></i> {{ persona.nombre }}
+                <span class="badge bg-primary rounded-pill">{{ persona.edad }} años</span>
+
+                <ul class="mt-2">
+                  <li *ngFor="let habilidad of persona.habilidades">
+                    <i class="bi bi-lightning"></i> {{ habilidad.descripcion ? habilidad.descripcion : habilidad }}
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <div class="mt-3 d-flex justify-content-between">
+            <button *ngIf="!tarea.completada" class="btn btn-success" (click)="completarTarea(tarea.id)">
+              <i class="bi bi-check-circle"></i> Completar
+            </button>
+            <button class="btn btn-danger" (click)="eliminarTarea(tarea.id)">
+              <i class="bi bi-trash"></i> Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div aria-live="polite" aria-atomic="true" class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+    <div *ngIf="toastVisible" class="toast show align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          {{ toastMessage }}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="hideToast()"></button>
+      </div>
+    </div>
+  </div>
+</div>
